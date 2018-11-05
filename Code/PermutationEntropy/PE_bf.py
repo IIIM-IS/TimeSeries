@@ -2,7 +2,7 @@
 Permutation entropy brute force computation
 
 Created : Mon Nov  5 10:43:54 GMT 2018
-Author : David Orn, david@iiim.is
+Author : David Orn
 
 
 Description:
@@ -25,15 +25,26 @@ import pdb
 
 def pe_bf(data, d, tau=1):
     """
-    Perform a linear brute force expression of the complexity of a
-    time series object using the permutation entropy as the
-    measurement in question.
+    (P)ermutation (E)ntropy (B)rute (F)orce
 
-    *args*
+    A benchmark compuation to estimate the evaluation time of
+    algorithms.
+
+*args
         data : np.array: Time series object of length N
         d : integer : Embedding dimension >= 2
         tau : integer : Time delay, distance between selected points
+
+*returns
+    Single float value of the entire
+
+Note:
+    The actual output can vary based on what type of logarihm is being used
+    to compute. Here we set to the base 2 because that is what Brand et al
+    suggested in 2002. However Matilla-Garcia et al (2007) used natural logarithm
+    it can be changed here to get the same output.
     """
+
     p = np.zeros((np.math.factorial(d)), dtype=np.int32)  # Compute possible types of permutations
     sym = list(itertools.permutations(range(0,d)))  # List all available permutations
 
@@ -78,7 +89,8 @@ def test_function():
     # Sample from https://www.sciencedirect.com/science/article/pii/S030440760800002X
     X = np.array([2, 8, 6, 5, 4, 9, 3])
     val = pe_bf(X, 3, tau=1)
-    print("Matilla-Garcia et al : Permutation entropy = {:.3f}".format(val))
+    # Can be confirmed, i.e. re-done by using log = nat log, instead of log2 as in Brandt et al.
+    print("Matilla-Garcia et al : Permutation entropy = {:.6f}".format(val))
 
 
 if __name__ == "__main__":
